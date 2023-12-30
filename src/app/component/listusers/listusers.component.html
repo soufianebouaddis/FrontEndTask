@@ -1,0 +1,76 @@
+<!-- user-form.component.html
+
+
+
+<form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+    <label for="name">Name:</label>
+    <input type="text" id="nom" formControlName="nom" required>
+  
+    <label for="prenom">Firstname:</label>
+    <input type="text" id="prenom" formControlName="prenom" required>
+  
+    <label for="email">Email:</label>
+    <input type="email" id="email" formControlName="email" required>
+  
+    <label for="password">Password:</label>
+    <input type="password" id="password" formControlName="password" required>
+  
+    <label for="username">Username:</label>
+    <input type="text" id="username" formControlName="username" required>
+  
+    <button type="submit">Add User</button>
+</form>
+  
+<!-- user-form.component.html -->
+<!-- 
+<h1>List of users :</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Firstname</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+       @for (user of users; track $index) 
+        {
+            <tr>
+                <td>user.id</td>
+                <td>user.name</td>
+                <td>user.prenom</td>
+                <td>
+                    <button type="button">Edit</button>
+                    <button type="button">Delete</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+<button type="button" (click)="getCors()"> Get Message </button> --> 
+
+<p>The user which authentified is : {{username}} </p>
+<h1>Add new Task</h1>
+<form [formGroup]="taskForm" (ngSubmit)="onSubmit()">
+    <label for="date_debut">Start Date:</label>
+    <input type="date" id="date_debut" formControlName="date_debut">
+  
+    <label for="date_fin">End Date:</label>
+    <input type="date" id="date_fin" formControlName="date_fin">
+  
+    <label for="status">Status:</label>
+    <input type="text" id="status" formControlName="status">
+  
+    <label for="label">Label:</label>
+    <input type="text" id="label" formControlName="label">
+  
+    <label for="description">Description:</label>
+    <textarea id="description" formControlName="description"></textarea>
+  
+    <button type="submit" [disabled]="taskForm.invalid">Add Task</button>
+  </form>
+  

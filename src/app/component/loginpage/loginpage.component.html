@@ -1,0 +1,23 @@
+<p>loginpage works!</p>
+
+<div class="login-container">
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="username">Username:</label>
+        <input type="text" id="username" formControlName="username">
+        @if (loginForm.get('username')?.hasError('required')) {
+            Username is required.
+        }
+      </div>
+      <div class="form-group">
+        <label for="password">Password:</label>
+        <input type="password" id="password" formControlName="password">
+        @if (loginForm.get('password')?.hasError('required')) {
+            Password is required.
+        }
+
+      </div>
+      <button type="submit" [disabled]="loginForm.invalid">Login</button>
+    </form>
+  </div>
+  
