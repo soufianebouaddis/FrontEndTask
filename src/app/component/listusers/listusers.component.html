@@ -61,10 +61,6 @@
   
     <label for="date_fin">End Date:</label>
     <input type="date" id="date_fin" formControlName="date_fin">
-  
-    <label for="status">Status:</label>
-    <input type="text" id="status" formControlName="status">
-  
     <label for="label">Label:</label>
     <input type="text" id="label" formControlName="label">
   
@@ -73,4 +69,36 @@
   
     <button type="submit" [disabled]="taskForm.invalid">Add Task</button>
   </form>
+  
+<h1>Tasks of {{username}}</h1>
+<table class="table" border="1">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Date Debut</th>
+        <th>Date Fin</th>
+        <th>Status</th>
+        <th>Label</th>
+        <th>Description</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+        @for (task of authenticatedUserTasks; track $index) {
+            <tr>
+                <td>{{task.id}}</td>
+                <td>{{ task.date_debut }}</td>
+                <td>{{ task.date_fin }}</td>
+                <td>{{ task.status }}</td>
+                <td>{{ task.label }}</td>
+                <td>{{ task.description }}</td>
+                <td>
+                  <button (click)="openDialog(username,task)">edit</button>
+                  <button (click)="deleteTask(task.id)">Delete</button>
+                </td>
+              </tr>
+        }
+      
+    </tbody>
+  </table>
   

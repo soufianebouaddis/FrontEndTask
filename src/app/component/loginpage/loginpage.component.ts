@@ -17,6 +17,7 @@ import { ActivatedRoute,Router } from '@angular/router';
 export class LoginpageComponent {
 
   loginForm: FormGroup;
+  
   constructor(private userData : UserDataService,private formBuilder: FormBuilder,private userService: UserService,private router: Router,private route:ActivatedRoute) {
     this.loginForm = this.formBuilder.group({
       username: ['', Validators.required],
@@ -30,6 +31,7 @@ export class LoginpageComponent {
         next: (value : LoginResponse) => {
           console.log(value);
           this.userData.setUsername(value.user.username);
+          
           this.router.navigate(['/list-users']);
         },
         error: (err) => {

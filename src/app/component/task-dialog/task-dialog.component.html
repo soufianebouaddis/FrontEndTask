@@ -1,0 +1,37 @@
+<h1>Hello Mr : {{username}}</h1>
+<div class="modal-header">
+    <h4 class="modal-title">Edit Task</h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <!-- Task form -->
+    <form [formGroup]="taskForm" (ngSubmit)="saveChanges()">
+      <div class="form-group">
+        <label for="date_debut">Date Debut:</label>
+        <input type="date" id="date_debut" name="date_debut" class="form-control" formControlName="date_debut">
+      </div>
+      <div class="form-group">
+        <label for="date_fin">Date Fin:</label>
+        <input type="date" id="date_fin" name="date_fin" class="form-control" formControlName="date_fin">
+      </div>
+      <div class="form-group">
+        <label for="status">Status:</label>
+        <input type="text" id="status" name="status" class="form-control" formControlName="status">
+      </div>
+      <div class="form-group">
+        <label for="label">Label:</label>
+        <input type="text" id="label" name="label" class="form-control" formControlName="label">
+      </div>
+      <div class="form-group">
+        <label for="description">Description:</label>
+        <textarea id="description" name="description" class="form-control" formControlName="description"></textarea>
+      </div>
+      <!-- Add other task properties as needed -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="activeModal.close('Close click')">Close</button>
+        <button type="submit" class="btn btn-primary" [disabled]="taskForm.invalid">Save Changes</button>
+      </div>
+    </form>
+  </div>

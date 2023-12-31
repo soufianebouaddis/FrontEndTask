@@ -6,6 +6,8 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { MessageCors } from '../../type/Message';
 import { Task } from '../../type/Task';
 import { UserResponse } from '../../type/UserResponse';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { TaskDialogComponent } from '../task-dialog/task-dialog.component';
 
 
 @Component({
@@ -16,12 +18,14 @@ import { UserResponse } from '../../type/UserResponse';
   styleUrl: './listusers.component.css'
 })
 export class ListusersComponent implements OnInit {
+  
 
-  users : User[] = [];
+  authenticated_user !: UserResponse;
+  authenticatedUserTasks !: Task[];
   userForm !: FormGroup;
   username !: string;
   taskForm !: FormGroup
-  constructor(private userData:UserDataService,private formBuilder: FormBuilder, private userService: UserService) { }
+  constructor(private userData: UserDataService, private formBuilder: FormBuilder, private userService: UserService,private modalService: NgbModal) { }
 
   ngOnInit(): void {
     /*this.userForm = this.formBuilder.group({
@@ -39,37 +43,68 @@ export class ListusersComponent implements OnInit {
       description: ['', Validators.required]
     });
     this.username = this.userData.getUsername();
+    this.getUserAuth();
   }
-  
+  getUserAuth() {
+    this.userService.getUserbyUsername(this.username).subscribe({
+      next: (user: UserResponse) => {
+        this.authenticatedUserTasks = user.tasks;
+        this.authenticated_user = user;
+        console.log(this.authenticated_user);
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    })
+  }
   onSubmit(): void {
     if (this.taskForm.valid) {
       const task: Task = this.taskForm.value;
       // Assuming you have a TaskService to handle adding the task
-      this.userService.addTask(this.username,task).subscribe({
-        next: (reponse : UserResponse) => {
+      task.status="NOTYET";
+      this.userService.addTask(this.username, task).subscribe({
+        next: (reponse: UserResponse) => {
           console.log(reponse);
         },
-        error : (err) => {
+        error: (err) => {
           console.log(err + "Task not added");
         }
       });
-    
-    
-        // (response) => {
-        //   console.log('Task added successfully:', response);
-        //   // Add any additional logic (e.g., redirect, notify user)
-        // },
-        // (error) => {
-        //   console.error('Error adding task:', error);
-        //   // Handle the error (e.g., display an error message)
-        // }
-     
+      // (response) => {
+      //   console.log('Task added successfully:', response);
+      //   // Add any additional logic (e.g., redirect, notify user)
+      // },
+      // (error) => {
+      //   console.error('Error adding task:', error);
+      //   // Handle the error (e.g., display an error message)
+      // }
+
     } else {
       console.log('Form is invalid');
     }
   }
+
+  deleteTask(idtask : number | undefined){
+    if(idtask !== undefined){
+      this.userService.deleteUserTask(this.username,idtask).subscribe({
+        next:(res : string)=>{
+          console.log("task deleted");
+        },
+        error:(err) => {
+          console.log(err);
+        }
+      })
+    }else{
+      alert('Task ID is undefined');
+    }
+  }
   
-  deleteUser(userId: number): void {
+  openDialog(username:string,task: Task): void {
+    const modalRef = this.modalService.open(TaskDialogComponent, { size: 'lg' });
+    modalRef.componentInstance.task = task;
+    modalRef.componentInstance.username = username;
+  }
+  /*deleteUser(userId: number): void {
     this.userService.deleteUserById(userId).subscribe({
       next: () => {
         console.log(`User with ID ${userId} deleted successfully`);
@@ -79,8 +114,8 @@ export class ListusersComponent implements OnInit {
         console.log('Error deleting user:', err);
       }
     });
-  }
-  private refreshUserList(): void {
+  }*/
+  /*private refreshUserList(): void {
     this.userService.getall().subscribe({
       next: (value: User[]) => {
         this.users = value;
@@ -89,8 +124,8 @@ export class ListusersComponent implements OnInit {
         console.log("Error refreshing user list: ", err);
       }
     });
-  }
-  getCors() : void{
+  }*/
+  /*getCors() : void{
     this.userService.getCorsMessage().subscribe({
       next : (value : MessageCors) => {
         console.log(value.message);
@@ -99,5 +134,6 @@ export class ListusersComponent implements OnInit {
         console.log(err);
       }
     })
-  }
+  }*/
+
 }

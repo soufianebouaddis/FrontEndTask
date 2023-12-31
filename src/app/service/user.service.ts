@@ -47,4 +47,36 @@ export class UserService {
     });
     return this.http.post<UserResponse>(`http://localhost:8081/USER-SERVICES/api/users/${username}`,task,{ headers });
   }
+  getUserbyUsername(username:string): Observable<UserResponse>{
+    const refreshToken = localStorage.getItem(this.refreshTokenKey);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${refreshToken}`
+    });
+    return this.http.get<UserResponse>(`http://localhost:8081/USER-SERVICES/api/users/loaduser/${username}`,{headers});
+  }
+
+  deleteUserTask(username:string,idTask : number) : Observable<string> {
+    const refreshToken = localStorage.getItem(this.refreshTokenKey);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${refreshToken}`
+    });
+    return this.http.delete<string>(`http://localhost:8081/USER-SERVICES/api/users/${username}/deletetask/${idTask}`,{headers});
+  }
+  
+  updateUserTask(username:string,idtask:number,editedtask:Task):Observable<Task>{
+    const refreshToken = localStorage.getItem(this.refreshTokenKey);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${refreshToken}`
+    });
+    return this.http.put<Task>(`http://localhost:8081/USER-SERVICES/api/users/${username}/updatetask/${idtask}`,editedtask,{headers});
+  }
+
+
+
+
+
+
 }
